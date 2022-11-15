@@ -16,7 +16,7 @@ const httpServer = http.createServer((req, res) => {
 });
 
 // Start the HTTP server
-httpServer.listen(config.port, () => {
+httpServer.listen(config.httpPort, () => {
   console.log(
     "The server is listening on port " +
       config.httpPort +
@@ -36,7 +36,7 @@ const httpsServer = https.createServer(httpsServerOptions, (req, res) => {
   unifiedServer(req, res);
 });
 // Start the HTTPS server
-httpsServer.listen(config.port, () => {
+httpsServer.listen(config.httpsPort, () => {
   console.log(
     "The server is listening on port " +
       config.httpsPort +
@@ -48,6 +48,7 @@ httpsServer.listen(config.port, () => {
 
 // Server logic to handle HTTP and HTTPS requests
 const unifiedServer = (req, res) => {
+  console.log("Server logic executing");
   // Get the URL and parse it
   const parsedUrl = url.parse(req.url, true);
 
@@ -114,9 +115,9 @@ const unifiedServer = (req, res) => {
 // Define the handler
 const handlers = {};
 
-// Sample handler
-handlers.sample = (data, callbackFn) => {
-  callbackFn(406, { name: "Sample handler" });
+// Ping handler
+handlers.ping = (data, callbackFn) => {
+  callbackFn(200);
 };
 
 // Not found handler
@@ -126,5 +127,5 @@ handlers.notFound = (data, callbackFn) => {
 
 // Define the request routers
 const routers = {
-  sample: handlers.sample,
+  ping: handlers.ping,
 };
