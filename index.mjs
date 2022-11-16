@@ -7,8 +7,10 @@ import http from "http";
 import https from "https";
 import url from "url";
 import { StringDecoder } from "string_decoder";
-import config from "./config.mjs";
+import config from "./lib/config.mjs";
 import fs from "fs";
+import handlers from "./lib/handlers.mjs";
+import helpers from "./lib/helpers.mjs";
 
 // Instantiate the HTTP server
 const httpServer = http.createServer((req, res) => {
@@ -87,7 +89,7 @@ const unifiedServer = (req, res) => {
       queryStringObject,
       method,
       headers,
-      payload: buffer,
+      payload: helpers.parseJsonStringToJsonObject(buffer),
     };
 
     // Route the request to the handler specified in the routers
@@ -112,20 +114,8 @@ const unifiedServer = (req, res) => {
   });
 };
 
-// Define the handler
-const handlers = {};
-
-// Ping handler
-handlers.ping = (data, callbackFn) => {
-  callbackFn(200);
-};
-
-// Not found handler
-handlers.notFound = (data, callbackFn) => {
-  callbackFn(404);
-};
-
 // Define the request routers
 const routers = {
   ping: handlers.ping,
+  users: handlers.users,
 };
