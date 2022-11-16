@@ -50,7 +50,6 @@ httpsServer.listen(config.httpsPort, () => {
 
 // Server logic to handle HTTP and HTTPS requests
 const unifiedServer = (req, res) => {
-  console.log("Server logic executing");
   // Get the URL and parse it
   const parsedUrl = url.parse(req.url, true);
 
